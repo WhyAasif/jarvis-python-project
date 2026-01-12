@@ -48,6 +48,20 @@ music = {
   "mala": "https://www.youtube.com/watch?v=eYSaHXXFIBU"
 }
 
+
+appClose = {
+    "notepad": "notepad.exe",
+    "calculator": "calc.exe",
+    "files": "explorer.exe",
+    "chrome": "chrome.exe",
+    "edge": "msedge.exe",
+    "code": "Code.exe",
+    "vlc": "vlc.exe",
+    "word": "WINWORD.EXE",
+    "excel": "EXCEL.EXE"
+}
+
+
 def processCommand(c):
     taskL = c.split(" ")
     if not taskL:
@@ -60,14 +74,21 @@ def processCommand(c):
         if AppLoc:
             os.startfile(AppLoc)
         else: speak(f"{AppLoc} not found")
-    elif c.lower().startswith("open"):
+    elif "open" == taskL[0]:
         webbrowser.open(f"https://www.{taskL[1]}.com")
 
-    elif c.startswith("play"):
+    elif "play" == taskL[0]:
         Pmusic = music.get(taskL[1])
         if Pmusic:
             webbrowser.open(Pmusic)
         else: speak(f"{Pmusic} not found")
+    elif "close" == taskL[0]:
+        App_CL = appClose.get(taskL[1])
+        if App_CL:
+            os.system(f"taskkill /f /im {App_CL}")
+        else: 
+            speak("App not recognized")
+
     else:
         ai_replay = ask_gpt(c)
         print("AI: ", ai_replay)
@@ -75,7 +96,7 @@ def processCommand(c):
     return True
 
 if __name__ == "__main__":
-    speak("Initializing computer")
+    speak("Initializing jarvis")
     while loopC:
         try:
             # Awake word listining 
@@ -86,8 +107,8 @@ if __name__ == "__main__":
             # print(command)
             command = command.lower().strip()
             print("You said:", command)
-            if command.startswith("computer"):
-                task = command[len("computer"):].strip()
+            if command.startswith("jarvis"):
+                task = command[len("jarvis"):].strip()
                 loopC =  processCommand(task)
 
             # speak(command)   # ✅ now works EVERY time
