@@ -77,6 +77,21 @@ def processCommand(c):
     elif "open" == taskL[0]:
         webbrowser.open(f"https://www.{taskL[1]}.com")
 
+    elif "search" in c:
+        c = c.lower()
+        if "youtube" in c:
+            _, _, cmd = c.partition("youtube")
+            cmd = cmd.strip().replace(" ", "+")
+            webbrowser.open(
+                f"https://www.youtube.com/results?search_query={cmd}"
+            )
+        else:
+            _, _, cmd = c.partition("search")
+            cmd = cmd.strip().replace(" ", "+")
+            webbrowser.open(
+            f"https://www.google.com/search?q={cmd}"
+            )
+
     elif "play" == taskL[0]:
         Pmusic = music.get(taskL[1])
         if Pmusic:
@@ -107,8 +122,8 @@ if __name__ == "__main__":
             # print(command)
             command = command.lower().strip()
             print("You said:", command)
-            if command.startswith("jarvis"):
-                task = command[len("jarvis"):].strip()
+            if command.startswith("language"):
+                task = command[len("language"):].strip()
                 loopC =  processCommand(task)
 
             # speak(command)   # ✅ now works EVERY time
